@@ -28,14 +28,16 @@ router.post('/adduser', function(req, res) {
     // Get our form values. These rely on the "name" attributes
     var userName = req.body.username;
     var userEmail = req.body.useremail;
+    var userDetails = req.body.userdetails;
 
     // Set our collection
     var collection = db.get('usercollection');
 
     // Submit to the DB
     collection.insert({
-        "username" : userName,
-        "email" : userEmail
+        "username" 	: userName,
+        "email" 	: userEmail,
+        "details" 	: userDetails
     }, function (err, doc) {
         if (err) {
             // If it failed, return error
@@ -43,6 +45,69 @@ router.post('/adduser', function(req, res) {
         }
         else {
             // If it worked, set the header so the address bar doesn't still say /adduser
+            res.location("userpage");
+            // And forward to success page
+            res.redirect("userpage");
+        }
+    });
+});
+
+router.post('/updateuser', function(req, res) {
+
+    // Set our internal DB variable
+    var db = req.db;
+
+    // Get our form values. These rely on the "name" attributes
+    var userName = req.body.updateuser;
+    var userEmail = req.body.updateemail;
+    var userDetails = req.body.updatedetails;
+
+    // Set our collection
+    var collection = db.get('usercollection');
+
+    // Submit to the DB
+    collection.update({
+        "username" 	: userName
+        } ,
+        { $set: {
+        "email" 	: userEmail,
+        "details"	: userDetails
+    	}
+    }, function (err, doc) {
+        if (err) {
+            // If it failed, return error
+            res.send("There was a problem updating the information in the database.");
+        }
+        else {
+            // If it worked, set the header so the address bar doesn't still say /deleteuser
+            res.location("userpage");
+            // And forward to success page
+            res.redirect("userpage");
+        }
+    });
+});
+
+router.post('/deleteuser', function(req, res) {
+
+    // Set our internal DB variable
+    var db = req.db;
+
+    // Get our form values. These rely on the "name" attributes
+    var userName = req.body.deleteuser;
+
+    // Set our collection
+    var collection = db.get('usercollection');
+
+    // Submit to the DB
+    collection.remove({
+        "username" : userName,
+    }, function (err, doc) {
+        if (err) {
+            // If it failed, return error
+            res.send("There was a problem removing the information to the database.");
+        }
+        else {
+            // If it worked, set the header so the address bar doesn't still say /deleteuser
             res.location("userpage");
             // And forward to success page
             res.redirect("userpage");

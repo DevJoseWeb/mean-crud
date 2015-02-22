@@ -1,16 +1,39 @@
 extends layout
 
 block content
-    h1.
-        User List
+    center 
+        h1. User Page
+
+    h2. User List
     ul
         each user, i in userpage
             li
                 a(href="mailto:#{user.email}")= user.username
+                br
+                p= user.details
 
-    h1.
-        Add User
+    h2. Add User
     form#formAddUser(name="adduser",method="post",action="/adduser")
         input#inputUserName(type="text", placeholder="username", name="username")
-        input#inputUserEmail(type="text", placeholder="useremail", name="useremail")
-        button#btnSubmit(type="submit") submit
+        br
+        input#inputUserEmail(type="text", placeholder="email", name="useremail")
+        br
+        input#inputUserDetails(type="text", placeholder="details", name="userdetails")
+        br
+        button#btnAdd(type="submit") submit
+
+    h2. Update User
+    form#formUpdateUser(name="updateuser",method="post",action="/updateuser")
+        input#inputUserName(type="text", placeholder="username", name="updateuser")
+        br
+        input#inputUserEmail(type="text", placeholder="email", name="updateemail")
+        br
+        input#inputUserDetails(type="text", placeholder="details", name="updatedetails")
+        br
+        button#btnUpdate(type="submit") update   
+
+    h2. Delete User
+    form#formDeleteUser(name="deleteuser",method="post",action="/deleteuser")
+        input#inputUserName(type="text", placeholder="username", name="deleteuser")
+        br
+        button#btnDelete(type="submit") delete
